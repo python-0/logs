@@ -19,6 +19,7 @@ function _doo() {
       -h logs-dev \
       --rm \
       --link logs_test:node2 \
+      --link logs_mysql:mysql \
       -it \
       -v $(pwd)/test/id_rsa:/root/\.ssh/id_rsa:ro \
       -v $(pwd):/app \
@@ -44,6 +45,17 @@ function init() {
     registry.aliyuncs.com/xiaoer_docker/python2.7 sh -c "pip install -r requment.txt"
   docker commit logs_init logs_dev:latest
   docker rm -f logs_init
+
+  docker rm -f logs_mysql
+  docker run \
+    --name logs_mysql \
+    -h logs-mysql \
+    -d \
+    -p 3306:3306 \
+    -v $(pwd)/test/mysql/sql:/docker-entrypoint-initdb.d \
+    -e MYSQL_ROOT_PASSWORD=123456 \
+    -e MYSQL_DATABASE=logs  \
+    mysql:5.6
 }
 
 function append(){
