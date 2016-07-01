@@ -1,17 +1,41 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-</head>
-<body>
-  <form action="/search" method="POST">
-    <label for="start_date">start date </label>  <input type="input" name="start_date" id="start_date" >
-    <br>
-    <label for="end_date">end date </label> <input type="input" name="end_date" id="end_date" >
-    <br>
-    <label for="app_name">app name</label> <input type="input" name="app_name" id="app_name" >
-    <br>
-    <label for="commit">submit </label> <input type="submit" id="commit" >
+{% extends "base.html" %}
+  {% block page_content %}
+      <form action="/search" method="POST">
+        {% for project in projects.keys() %}
+            <div class="container">
+                <a class="btn btn-primary" data-toggle="collapse" href="#{{ project }}" aria-expanded="False" aria-controls="{{ project }}"> {{ project }}
+                </a>
+                <div class="collapse" id="{{ project }}">
+                    <table class="table table-inverse">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>主机名称</th>
+                                <th>日志路径</th>
+                                <th>开始时间</th>
+                                <th>时间时间</th>
+                                <th>日志下载</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for host,log_path in projects[project].iteritems() %} 
+                            <tr>
+                                <th>{{ loop.index }}</th>
+                                <td>{{ host }}</td>    
+                                <td>{{ log_path }}</td>
+                                <td>{{ form.dt(class='datepicker') }}</td>
+                                <td>{{ form.dt(class='datepicker') }}</td>
+                                <td>下载</td>
+                            </tr>  
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endfor %}
+        {{ form.hidden_tag() }}
+      </form>
 
-  </form>
-</body>
-</html>
+</form>
+
+  {% endblock %}

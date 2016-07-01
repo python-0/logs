@@ -1,0 +1,27 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+  {{ super() }}
+  <link rel="shortcut icon" href="{{ url_for('static',filename = 'favicon.ico') }}" type="image/x-icon" >
+  <link rel="icon" href="{{ url_for('static',filename = 'favicon.ico') }}" type="image/x-icon" >
+{% endblock %}
+
+{% block title %} Log Search {% endblock %}
+
+{% block navbar %}
+  <div class="container">
+    <div class="navbar navbar-inverse role="navigation">
+      <a class="navbar-brand" href="#">LOG.IO</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    {% block page_content %} {% endblock %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='myscripts.js') }}"  ></script> 
+{% endblock %}

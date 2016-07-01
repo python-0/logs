@@ -7,7 +7,16 @@ class DevlopmentConfig(BaseConfig):
 	TESTING = True
 	LOGS_DIR = 'static/logs'
 	
-	PAYMENT = {"node2": "/opt/catalina.out"}
+	APPS_LOGS = {
+		"wechat": { 
+			"node1": "/opt/catalina.out",
+			"node2": "/opt/catalina.out",
+			"node4": "/opt/catalina.out"
+		},
+		"payment": { 
+			"node2": "/opt/catalina.out"
+		}
+	}
 
 class ProductionConfig(BaseConfig):
 	'Production environment specific config'
