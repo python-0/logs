@@ -38,6 +38,7 @@ function doo() {
 }
 
 function init() {
+  docker pull registry.aliyuncs.com/xiaoer_docker/python2.7
   docker run \
     --name=logs_init \
     -v $(pwd):/app \
