@@ -1,9 +1,10 @@
 import time
-from wtforms.fields.html5 import DateField
+from wtforms.fields.html5 import DateTimeField
 from flask_wtf import Form
+from datetime import datetime
 
 class DatePicker(Form):
-	dt = DateField('datePicker', format='%Y-%m-%d %H:%M')
+	dt = DateTimeField('dateTimePicker', format="%Y-%m-%dT%H:%M", default=datetime.today)
 
 def get_unix_time():
 	now = time.time()
