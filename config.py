@@ -6,6 +6,11 @@ class DevlopmentConfig(BaseConfig):
 	DEBUG = True
 	TESTING = True
 	LOGS_DIR = 'static/logs'
+	MYSQL_HOST = 'mysql'
+	MYSQL_USER = 'root'
+	MYSQL_PASSWORD = '123456'
+	MYSQL_DB = 'logs'
+	MYSQL_PORT = 3306
 	
 	APPS_LOGS = {
 		"wechat": { 
