@@ -1,9 +1,9 @@
-from flask import current_app, Blueprint, request, render_template
+from flask import current_app, Blueprint, request, render_template,\
+    redirect, url_for, flash
 from apps.auth.forms import LoginForm
 from apps import MySQL
 
 auth = Blueprint('auth', __name__)
-
 mysql = MySQL()
 
 
@@ -14,9 +14,19 @@ def login():
         return render_template('auth/login.html', form=form)
     elif request.method == 'POST':
         cur = mysql.connection.cursor()
-        cur.execute("""select * from users""")
-        rv = cur.fetchall()
-        print(rv)
+        username = request.form['username']
+        password = request.form['password']
+        cur.execute("""select count(*) from users where user_name="{}" and user_password="{}" """
+                    .format(username, password)
+                    )
+        rv = cur.fetchone()[0]
+        if rv == 0:
+            flash('Invalid username or password')
+            return redirect(url_for('auth.login'))
+        else:
+            return redirect(url_for('search.index'))
+
+    return "wait..."
 
 
 @auth.route('/apply', methods=['GET', 'POST'])

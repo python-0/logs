@@ -1,4 +1,4 @@
-from fabric.api import task, run, get, local
+from fabric.api import task, run, get
 import os
 
 

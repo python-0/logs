@@ -8,7 +8,7 @@ search = Blueprint('search', __name__)
 
 
 @search.route('/search', methods=['POST', 'GET'])
-def se():
+def index():
     error = None
     if request.method == 'GET':
         projects = current_app.config['APPS_LOGS']
@@ -21,10 +21,11 @@ def se():
         app_logs = current_app.config[app_name]
         for host, log_path in app_logs.items():
             subprocess.call('/usr/local/bin/fab -f {}/get_logs.py -H {} \
-				get_log:start_date={},end_date={},temp_file={},apps_log_path={}'.format(cur_dir, host, start_date,
-                                                                                        end_date,
-                                                                                        app_name + get_unix_time() + ".log",
-                                                                                        log_path), shell=True)
+				get_log:start_date={},end_date={},temp_file={},apps_log_path={}'\
+                            .format(cur_dir, host, start_date,
+                            end_date,
+                            app_name + get_unix_time() + ".log",
+                            log_path), shell=True)
 
     return 'please wait ...'
 
