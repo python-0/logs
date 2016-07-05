@@ -1,7 +1,7 @@
 import subprocess
 import os
 from flask import send_from_directory, request, render_template, Blueprint, current_app
-from apps.cut_logs.utils import get_unix_time, DatePicker
+from apps.main.utils import get_unix_time, DatePicker
 
 cur_dir = os.path.abspath(os.path.dirname(__file__))
 search = Blueprint('search', __name__)
@@ -34,5 +34,3 @@ def dl():
     return send_from_directory(current_app.config['LOGS_DIR'], filename='abcd.txt', as_attachment=True)
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
