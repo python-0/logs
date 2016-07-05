@@ -1,3 +1,4 @@
+# noinspection SqlNoDataSourceInspectionForFile
 -- MySQL dump 10.13  Distrib 5.6.31, for Linux (x86_64)
 --
 -- Host: localhost    Database: logs
@@ -19,7 +20,7 @@
 -- Current Database: `logs`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `logs` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `logs` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 USE `logs`;
 
