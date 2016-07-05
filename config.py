@@ -5,6 +5,7 @@ class BaseConfig(object):
 class DevlopmentConfig(BaseConfig):
     """ Development environment specific config """
     DEBUG = True
+    SECRET_KEY = 'xiaoer'
     TESTING = True
     LOGS_DIR = 'static/logs'
     MYSQL_HOST = 'mysql'

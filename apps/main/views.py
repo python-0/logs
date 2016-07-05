@@ -21,11 +21,11 @@ def index():
         app_logs = current_app.config[app_name]
         for host, log_path in app_logs.items():
             subprocess.call('/usr/local/bin/fab -f {}/get_logs.py -H {} \
-				get_log:start_date={},end_date={},temp_file={},apps_log_path={}'\
+				get_log:start_date={},end_date={},temp_file={},apps_log_path={}' \
                             .format(cur_dir, host, start_date,
-                            end_date,
-                            app_name + get_unix_time() + ".log",
-                            log_path), shell=True)
+                                    end_date,
+                                    app_name + get_unix_time() + ".log",
+                                    log_path), shell=True)
 
     return 'please wait ...'
 
@@ -33,5 +33,3 @@ def index():
 @search.route("/dl")
 def dl():
     return send_from_directory(current_app.config['LOGS_DIR'], filename='abcd.txt', as_attachment=True)
-
-
