@@ -53,7 +53,6 @@ function init() {
     -h logs-mysql \
     -d \
     -p 3306:3306 \
-    -v $(pwd)/test/mysql/sql:/docker-entrypoint-initdb.d \
     -v $(pwd)/test/mysql/conf:/etc/mysql/conf.d:ro \
     -e MYSQL_ROOT_PASSWORD=123456 \
     -e MYSQL_DATABASE=logs  \

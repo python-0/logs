@@ -8,11 +8,8 @@ class DevlopmentConfig(BaseConfig):
     SECRET_KEY = 'xiaoer'
     TESTING = True
     LOGS_DIR = 'static/logs'
-    MYSQL_HOST = 'mysql'
-    MYSQL_USER = 'logs'
-    MYSQL_PASSWORD = 'logs'
-    MYSQL_DB = 'logs'
-    MYSQL_PORT = 3306
+    SQLALCHEMY_DATABASE_URI = 'mysql://logs:logs@mysql/logs'
+    SQLALCHEMY_TRACK_MODIFICATIONS = 'True'
 
     APPS_LOGS = {
         "wechat": {
