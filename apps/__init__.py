@@ -5,8 +5,6 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 
-from apps.main.views import search
-from apps.auth.views import auth
 
 bootstrap = Bootstrap()
 loginManager = LoginManager()
@@ -24,6 +22,8 @@ def create_app(config):
     db.init_app(app)
     loginManager.init_app(app)
 
+    from apps.main.views import search
+    from apps.auth.views import auth
     app.register_blueprint(search)
     app.register_blueprint(auth, url_prefix='/auth')
 
