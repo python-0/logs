@@ -11,20 +11,16 @@ auth = Blueprint('auth', __name__)
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    if request.method == 'GET':
-        return render_template('auth/login.html', form=form)
-    elif request.method == 'POST':
-        username = request.form['username']
+    if form.validate_on_submit():
+        email = request.form['email']
         password = request.form['password']
-        user = User.query.filter_by(username=username, password=password).first()
-        if user is None:
-            flash('Invalid username or password')
-            return redirect(url_for('auth.login'))
-        else:
+        user = User.query.filter_by(email=email).first()
+        print user
+        if user is not None and user.verify_password(password):
             login_user(user)
             return redirect(url_for('search.index'))
-
-    return "wait..."
+        flash('Invalid username or password')
+    return render_template('auth/login.html', form=form)
 
 
 @auth.route('/apply', methods=['GET', 'POST'])
