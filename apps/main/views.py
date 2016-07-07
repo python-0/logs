@@ -9,7 +9,6 @@ search = Blueprint('search', __name__)
 
 @search.route('/search', methods=['POST', 'GET'])
 def index():
-    error = None
     if request.method == 'GET':
         projects = current_app.config['APPS_LOGS']
         form = DatePicker()

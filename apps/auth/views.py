@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template,\
     redirect, url_for, flash
+from flask_login import login_user
 
 from apps.auth.forms import LoginForm
 from apps.models import User
@@ -20,6 +21,7 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
         else:
+            login_user(user)
             return redirect(url_for('search.index'))
 
     return "wait..."
