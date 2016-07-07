@@ -24,7 +24,11 @@
         <li class="active"><a href="{{ url_for('search.index') }}">Home<span class="sr-only">(current)</span></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+          {% if current_user.is_authenticated %}
+          <li><a href="{{ url_for('auth.logout') }}">Sign out</a></li>
+          {% else %}
+          <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+          {% endif %}
       </ul>
     </div>
 </div>
@@ -32,7 +36,7 @@
 
 {% block content %}
     <div class="container">
-    {% for message in get_flashed_messages() %}
+    {% for catagory, message in get_flashed_messages(with_categories=true) %}
     <div class="alert alert-warning">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         {{message}}
