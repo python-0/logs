@@ -15,7 +15,6 @@ def login():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
-        print user
         if user is not None and user.verify_password(password):
             login_user(user)
             return redirect(url_for('search.index'))
