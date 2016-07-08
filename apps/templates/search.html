@@ -22,9 +22,11 @@
                             <th>{{ loop.index }}</th>
                             <td>{{ host }}</td>
                             <td>{{ log_path }}</td>
-                            <td>{{ form.dt(class='datetimepicker') }}</td>
-                            <td>{{ form.dt(class='datetimepicker') }}</td>
-                            <td><button id="download" type="button" class="btn btn-primary btn-xs">download</td>
+                            <td>{{ form.dt(class='datetimepicker', id="start_date") }}</td>
+                            <td>{{ form.dt(class='datetimepicker', id="end_date") }}</td>
+                            <td>
+                                <button id="download" type="button" class="btn btn-primary btn-xs">download</button>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
