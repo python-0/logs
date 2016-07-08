@@ -1,30 +1,32 @@
 {% extends "base.html" %}
   {% block page_content %}
       {% for project in projects.keys() %}
-           <div class="panel panel-default">
-               <div class="panel-heading"> {{ project }}
+           <div class="panel panel-primary">
+               <div class="panel-heading">
+                    <div class="panel-title">{{ project }}</div>
+               </div>
+               <div class="panel-body">
+                   开始时间: &nbsp;&nbsp; {{ form.dt(class='datetimepicker start_date') }} &nbsp;&nbsp;&nbsp;&nbsp;
+                   结束时间: &nbsp;&nbsp; {{ form.dt(class='datetimepicker end_date') }}
                </div>
                <table class="table table-hover table-striped" style="display:none">
                     <thead>
-                        <tr>
+                        <tr class="info">
                             <th>编号</th>
                             <th>主机名称</th>
                             <th>日志路径</th>
-                            <th>开始时间</th>
-                            <th>时间时间</th>
-                            <th>日志下载</th>
+                            <th>日志导出</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for host,log_path in projects[project].iteritems() %}
                         <tr>
-                            <th>{{ loop.index }}</th>
+                            <td>{{ loop.index }}</td>
                             <td>{{ host }}</td>
                             <td>{{ log_path }}</td>
-                            <td>{{ form.dt(class='datetimepicker', id="start_date") }}</td>
-                            <td>{{ form.dt(class='datetimepicker', id="end_date") }}</td>
+                            <td class="hidden">{{ project }}</td>
                             <td>
-                                <button id="download" type="button" class="btn btn-primary btn-xs">download</button>
+                                <button type="button" class="btn btn-primary btn-xs" onclick="gg(this)">download</button>
                             </td>
                         </tr>
                         {% endfor %}

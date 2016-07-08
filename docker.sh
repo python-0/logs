@@ -20,6 +20,7 @@ function _doo() {
       --rm \
       --link logs_test:node2 \
       --link logs_mysql:mysql \
+      --link logs_redis:redis \
       -it \
       -v $(pwd)/test/id_rsa:/root/\.ssh/id_rsa:ro \
       -v $(pwd):/app \
@@ -59,6 +60,13 @@ function init() {
     -e MYSQL_USER=logs \
     -e MYSQL_PASSWORD=logs \
     mysql:5.6
+
+   docker run \
+    --name logs_redis\
+    -h logs-redis\
+    -d \
+    -p 6379:6379 \
+    redis
 }
 
 function append(){
@@ -70,7 +78,6 @@ function append(){
   docker commit logs_append logs_dev:latest
   docker rm -f logs_append
 }
-
 
 case $opration in
   init)
