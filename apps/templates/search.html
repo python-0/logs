@@ -1,11 +1,10 @@
 {% extends "base.html" %}
   {% block page_content %}
-      <form action="/search" method="POST">
-        {% for project in projects.keys() %}
-            <div class="panel panel-default">
-                <div class="panel-heading"> {{ project }}
-                </div>
-                <table class="table table-hover table-striped" style="display:none">
+      {% for project in projects.keys() %}
+           <div class="panel panel-default">
+               <div class="panel-heading"> {{ project }}
+               </div>
+               <table class="table table-hover table-striped" style="display:none">
                     <thead>
                         <tr>
                             <th>编号</th>
@@ -30,12 +29,10 @@
                         </tr>
                         {% endfor %}
                     </tbody>
-                </table>
-            </div>
-        {% endfor %}
-        {{ form.hidden_tag() }}
-      </form>
-
+              </table>
+          </div>
+      {% endfor %}
+      {{ form.hidden_tag() }}
 </form>
 
   {% endblock %}
