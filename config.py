@@ -1,5 +1,8 @@
 class BaseConfig(object):
     """ Base config class """
+    CELERY_BROKER_URL = 'redis://redis:6379/0'
+    CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+    BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 
 
 class DevlopmentConfig(BaseConfig):
@@ -9,7 +12,7 @@ class DevlopmentConfig(BaseConfig):
     TESTING = True
     LOGS_DIR = 'static/logs'
     SQLALCHEMY_DATABASE_URI = 'mysql://logs:logs@mysql/logs'
-    SQLALCHEMY_TRACK_MODIFICATIONS = 'True'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     APPS_LOGS = {
         "wechat": {

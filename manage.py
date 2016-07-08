@@ -24,6 +24,8 @@ manager.add_command('runserver', server)
 def secret():
     return "only authenticated users are allowed"
 
+
 if __name__ == '__main__':
     manager.run()
+
 

@@ -2,6 +2,7 @@ import subprocess
 import os
 from flask import request, render_template, Blueprint, current_app
 from apps.main.utils import get_unix_time, DatePicker
+from apps.tasks import add
 
 cur_dir = os.path.abspath(os.path.dirname(__file__))
 search = Blueprint('search', __name__)
@@ -33,4 +34,7 @@ def index():
 def dl():
     if request.method == 'POST':
         data = request.get_json(force=True)
+        aa = add.apply_async((1, 5), countdown=5)
+        print aa
+
         return ''
