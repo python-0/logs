@@ -1,20 +1,14 @@
 #!/bin/bash
 
-opration=$1
+OPT=$1
 
-function _doo() {
-  c=`docker ps |grep -w logs_test|wc -l`
-  if [ $c -eq 0 ]; then
-    docker run \
-        --name=logs_test \
-        -h node2 \
-        -d \
-        -v $(pwd)/test/id_rsa.pub:/root/\.ssh/authorized_keys:ro \
-        -v $(pwd)/test/catalina.out:/opt/catalina.out:ro \
-        registry.aliyuncs.com/xiaoer_docker/python2.7
-  fi
-  
-  exec docker run \
+function doo() {
+  c=`docker ps |grep -w logs_dev |wc -l`
+  if [ $c -eq 1 ]; then
+    exec docker exec -it logs_dev bash
+  else
+    docker rm logs_dev
+    exec docker run \
       --name=logs_dev \
       -h logs-dev \
       --rm \
@@ -27,46 +21,61 @@ function _doo() {
       -w /app \
       -p 5000:5000 \
       logs_dev:latest bash
-}
-
-function doo() {
-  c=`docker ps |grep -w logs_dev |wc -l`
-  if [ $c -eq 1 ]; then
-    exec docker exec -it logs_dev bash
-  else
-    _doo
   fi
 }
 
 function init() {
-  docker pull registry.aliyuncs.com/xiaoer_docker/python2.7
-  docker run \
-    --name=logs_init \
-    -v $(pwd):/app \
-    -w /app \
-    registry.aliyuncs.com/xiaoer_docker/python2.7 sh -c "pip install -r requment.txt"
-  docker commit logs_init logs_dev:latest
-  docker rm -f logs_init
-
-  docker rm -f logs_mysql
-  docker run \
-    --name logs_mysql \
-    -h logs-mysql \
-    -d \
-    -p 3306:3306 \
-    -v $(pwd)/test/mysql/conf:/etc/mysql/conf.d:ro \
-    -e MYSQL_ROOT_PASSWORD=123456 \
-    -e MYSQL_DATABASE=logs  \
-    -e MYSQL_USER=logs \
-    -e MYSQL_PASSWORD=logs \
-    mysql:5.6
-
-   docker run \
-    --name logs_redis\
-    -h logs-redis\
-    -d \
-    -p 6379:6379 \
-    redis
+  case $1 in
+    dev)
+      docker pull registry.aliyuncs.com/xiaoer_docker/python2.7
+      docker run \
+        --name=logs_init \
+        -v $(pwd):/app \
+        -w /app \
+        registry.aliyuncs.com/xiaoer_docker/python2.7 sh -c "pip install -r requment.txt"
+      docker commit logs_init logs_dev:latest
+      docker rm -f logs_init
+      ;;
+    mysql)
+      docker rm -f logs_mysql
+      docker run \
+        --name logs_mysql \
+        -h logs-mysql \
+        -d \
+        -p 3306:3306 \
+        -v $(pwd)/test/mysql/conf:/etc/mysql/conf.d:ro \
+        -e MYSQL_ROOT_PASSWORD=123456 \
+        -e MYSQL_DATABASE=logs  \
+        -e MYSQL_USER=logs \
+        -e MYSQL_PASSWORD=logs \
+        mysql:5.6
+      ;;
+    redis)
+      docker rm -f logs_redis
+      docker run \
+        --name logs_redis\
+        -h logs-redis\
+        -d \
+        -p 6379:6379 \
+        redis
+      ;;
+    test)
+      docker rm -f logs_test
+      docker run \
+        --name=logs_test \
+        -h node2 \
+        -d \
+        -v $(pwd)/test/id_rsa.pub:/root/\.ssh/authorized_keys:ro \
+        -v $(pwd)/test/catalina.out:/opt/catalina.out:ro \
+        registry.aliyuncs.com/xiaoer_docker/python2.7
+      ;;
+    all)
+      init dev
+      init mysql
+      init redis
+      init test
+      ;;
+  esac
 }
 
 function append(){
@@ -79,9 +88,9 @@ function append(){
   docker rm -f logs_append
 }
 
-case $opration in
+case $OPT in
   init)
-    init
+    init $2
     ;;
   append)
     append
