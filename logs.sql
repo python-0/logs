@@ -1,9 +1,8 @@
-# noinspection SqlNoDataSourceInspectionForFile
--- MySQL dump 10.13  Distrib 5.6.31, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.30, for Linux (x86_64)
 --
 -- Host: localhost    Database: logs
 -- ------------------------------------------------------
--- Server version	5.6.31
+-- Server version	5.6.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -17,12 +16,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `logs`
+-- Table structure for table `alembic_version`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `logs` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
+DROP TABLE IF EXISTS `alembic_version`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `alembic_version` (
+  `version_num` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-USE `logs`;
+--
+-- Dumping data for table `alembic_version`
+--
+
+LOCK TABLES `alembic_version` WRITE;
+/*!40000 ALTER TABLE `alembic_version` DISABLE KEYS */;
+INSERT INTO `alembic_version` VALUES ('e98a72bd9a9d');
+/*!40000 ALTER TABLE `alembic_version` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -32,13 +45,16 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `user_id` varchar(12) NOT NULL,
-  `user_name` varchar(20) DEFAULT NULL,
-  `user_password` varchar(30) DEFAULT NULL,
-  `user_email` varchar(20) DEFAULT NULL,
-  `user_remember` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(60) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `password_hash` varchar(128) DEFAULT NULL,
+  `confirmd` tinyint(1) DEFAULT NULL,
+  `registerd_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `ix_users_email` (`email`),
+  KEY `ix_users_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +63,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('1000','admin','admin','admin@x2.com',1);
+INSERT INTO `users` VALUES (4,'dingl.li@hnair.com','admin','pbkdf2:sha1:1000$PolWDU0S$c1981d714037770d2cf34a7123dc14654152e14a',0,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +76,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-07-01  1:40:51
+-- Dump completed on 2016-07-11  1:20:43

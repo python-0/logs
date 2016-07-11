@@ -43,6 +43,7 @@ function init() {
         -h logs-mysql \
         -d \
         -p 3306:3306 \
+        -v $(pwd)/test/mysql/db:/docker-entrypoint-initdb.d:ro \
         -v $(pwd)/test/mysql/conf:/etc/mysql/conf.d:ro \
         -e MYSQL_ROOT_PASSWORD=123456 \
         -e MYSQL_DATABASE=logs  \
@@ -94,6 +95,9 @@ case $OPT in
     ;;
   append)
     append
+    ;;
+  export)
+    docker exec logs_mysql sh -c 'mysqldump -p"$MYSQL_ROOT_PASSWORD" logs' > $(pwd)/test/mysql/db/logs.sql
     ;;
   do)
     doo
