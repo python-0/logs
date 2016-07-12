@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+  {% block page_content %}
+      {% for host in hosts %}
+           <div class="panel panel-primary">
+               <table class="table table-hover table-striped" style="display:none">
+                    <thead>
+                        <tr class="info">
+                            <th>编号</th>
+                            <th>主机名称</th>
+                            <th>网络地址</th>
+                            <th>可用区域</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for host,log_path in projects[project].iteritems() %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ host }}</td>
+                            <td>{{ log_path }}</td>
+                            <td class="hidden">{{ project }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-xs" onclick="gg(this)">download</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+              </table>
+          </div>
+      {% endfor %}
+      {{ form.hidden_tag() }}
+</form>
+
+  {% endblock %}

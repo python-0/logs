@@ -37,3 +37,39 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.name
+
+
+class Hosts(db.Model):
+    __tablename__ = 'hosts'
+    id = db.Column(db.Integer, primary_key=True)
+    hostname = db.Column(db.String(30), unique=True)
+    ipaddress = db.Column(db.String(20), unique=True)
+    az = db.Column(db.String(20))
+
+    def __init__(self, hostname, ip, az):
+        self.az = az
+        self.ipaddress = ip
+        self.hostname = hostname
+
+
+class Projects(db.Model):
+    __tablename__ = 'projects'
+    id = db.Column('project_id', db.Integer, primary_key=True)
+    project_name = db.Column(db.String(70), unique=True)
+    log_path = db.Column(db.String(100))
+    host = db.Column(db.Integer, db.ForeignKey(Hosts.id))
+
+    def __init__(self, id, project_name, log_path, host):
+        self.id = id
+        self.project_name = project_name
+        self.host = host
+        self.log_path = log_path
+
+
+class Tasks(db.Model):
+    __tablename__ = 'tasks'
+    id = db.Column('task_id', db.Integer, primary_key=True)
+    start_date = db.Column(db.String(64))
+    end_date = db.Column(db.String(64))
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.project_id'))
+    project = db.relationship('Projects', backref=db.backref('tasks', lazy='dynamic'))

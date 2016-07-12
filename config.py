@@ -3,6 +3,11 @@ class BaseConfig(object):
     CELERY_BROKER_URL = 'redis://redis:6379/0'
     CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
     BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+    LOGS_DIR = 'static/logs'
+
+    @classmethod
+    def init(cls, app):
+        pass
 
 
 class DevlopmentConfig(BaseConfig):
@@ -10,7 +15,6 @@ class DevlopmentConfig(BaseConfig):
     DEBUG = True
     SECRET_KEY = 'xiaoer'
     TESTING = True
-    LOGS_DIR = 'static/logs'
     SQLALCHEMY_DATABASE_URI = 'mysql://logs:logs@mysql/logs'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 

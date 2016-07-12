@@ -3,7 +3,8 @@ from flask import Blueprint, request, render_template,\
 from flask_login import login_user, logout_user, login_required
 
 from apps.auth.forms import LoginForm
-from apps.models import User
+from apps.models import User, Projects, Tasks
+from apps import db
 
 auth = Blueprint('auth', __name__)
 

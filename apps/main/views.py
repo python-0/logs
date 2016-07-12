@@ -1,40 +1,50 @@
-import subprocess
 import os
 from flask import request, render_template, Blueprint, current_app
-from apps.main.utils import get_unix_time, DatePicker
-from apps.tasks import add
+from apps.utils import DatePicker
+from apps.tasks import get_logs
+from apps.models import Tasks, Hosts, Projects
+from apps import db
+from apps.main.forms import HostForm
 
 cur_dir = os.path.abspath(os.path.dirname(__file__))
-search = Blueprint('search', __name__)
+main = Blueprint('main', __name__)
 
 
-@search.route('/search', methods=['POST', 'GET'])
+@main.route('/index', methods=['GET'])
 def index():
     if request.method == 'GET':
         projects = current_app.config['APPS_LOGS']
         form = DatePicker()
         return render_template('search.html', projects=projects, form=form)
-    elif request.method == 'POST':
-        start_date = request.form['start_date'].strip()
-        end_date = request.form['end_date'].strip()
-        app_name = request.form['app_name'].strip()
-        app_logs = current_app.config[app_name]
-        for host, log_path in app_logs.items():
-            subprocess.call('/usr/local/bin/fab -f {}/get_logs.py -H {} \
-				get_log:start_date={},end_date={},temp_file={},apps_log_path={}' \
-                            .format(cur_dir, host, start_date,
-                                    end_date,
-                                    app_name + get_unix_time() + ".log",
-                                    log_path), shell=True)
-
-    return 'please wait ...'
 
 
-@search.route('/dl', methods=['POST', 'GET'])
+@main.route('/hosts', methods=['GET', 'POST'])
+def hosts():
+    form = HostForm()
+    if form.validate_on_submit():
+        hostname = request.form['hostname']
+        ipaddress = request.form['ipaddress']
+        az = request.form['az']
+        host = Hosts(hostname, ipaddress, az)
+        db.session.add(host)
+        db.session.commit()
+
+    hosts = Hosts.query.order_by(db.asc(Hosts.id)).all()
+    return render_template('main/hosts.html', hosts=hosts)
+
+
+
+
+@main.route('/dl', methods=['POST'])
 def dl():
     if request.method == 'POST':
-        data = request.get_json(force=True)
-        aa = add.apply_async((1, 5), countdown=5)
-        print aa
+        post = request.get_json()
+        start_date = post['startTime'].encode('utf-8')
+        end_date = post['endTime'].encode('utf-8')
+        project = post['project'].encode('utf-8')
+        host_name = post['hostName'].encode('utf-8')
+        log_path = post['log_path'].encode('utf-8')
+        user_name = 'admin'
+        get_logs.delay(project, host_name, log_path, start_date, end_date, user_name)
 
         return ''
