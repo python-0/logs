@@ -11,7 +11,7 @@ function gg(obj) {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:5000/dl",
+        url: "http://localhost:5000/main.dl",
         data: JSON.stringify({"project": project, "hostName": hostName, "log_path": log_path, "startTime": startTime, "endTime": endTime}),
         contentType: "application/json;charset=utf-8",
         dataType: "json",

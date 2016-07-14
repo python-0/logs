@@ -3,8 +3,7 @@ from flask import Blueprint, request, render_template,\
 from flask_login import login_user, logout_user, login_required
 
 from apps.auth.forms import LoginForm
-from apps.models import User, Projects, Tasks
-from apps import db
+from apps.models import User
 
 auth = Blueprint('auth', __name__)
 
@@ -18,7 +17,7 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user is not None and user.verify_password(password):
             login_user(user)
-            return redirect(url_for('search.index'))
+            return redirect(url_for('main.index'))
         flash('Invalid username or password', 'error')
     return render_template('auth/login.html', form=form)
 
@@ -34,3 +33,4 @@ def logout():
 @auth.route('/apply', methods=['GET', 'POST'])
 def apply():
     pass
+    return

@@ -1,8 +1,13 @@
 {% extends "bootstrap/base.html" %}
 {% block head %}
   {{ super() }}
-  <link rel="shortcut icon" href="{{ url_for('static',filename = 'favicon.ico') }}" type="image/x-icon" >
-  <link rel="icon" href="{{ url_for('static',filename = 'favicon.ico') }}" type="image/x-icon" >
+  <link rel="shortcut icon" href="{{ url_for('static',filename = 'favicon.ico') }}" type="image/x-icon" />
+  <link rel="icon" href="{{ url_for('static',filename = 'favicon.ico') }}" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css" />
+  <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css" />
+  <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/color.css" />
+
+
 {% endblock %}
 
 {% block title %} Log Search {% endblock %}
@@ -22,7 +27,6 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="{{ url_for('main.index') }}">Home<span class="sr-only">(current)</span></a></li>
-        <li><a href="{{ url_for('main.hosts') }}">Hosts<span class="sr-only">(current)</span></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
           {% if current_user.is_authenticated %}
@@ -50,5 +54,6 @@
 
 {% block scripts %}
   {{ super() }}
-  <script src="{{ url_for('static', filename='myscripts.js') }}"  ></script> 
+  <script src="http://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+  <script src="{{ url_for('static', filename='myscripts.js') }}"  ></script>
 {% endblock %}

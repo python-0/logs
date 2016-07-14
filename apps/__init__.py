@@ -27,8 +27,9 @@ def create_app(config_name):
     cf[config_name].init(app)
 
     from apps.main.views import main
-    from apps.auth.views import auth
     app.register_blueprint(main)
+
+    from apps.auth.views import auth
     app.register_blueprint(auth, url_prefix='/auth')
 
     return app

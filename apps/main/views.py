@@ -2,9 +2,7 @@ import os
 from flask import request, render_template, Blueprint, current_app
 from apps.utils import DatePicker
 from apps.tasks import get_logs
-from apps.models import Tasks, Hosts, Projects
-from apps import db
-from apps.main.forms import HostForm
+
 
 cur_dir = os.path.abspath(os.path.dirname(__file__))
 main = Blueprint('main', __name__)
@@ -16,23 +14,6 @@ def index():
         projects = current_app.config['APPS_LOGS']
         form = DatePicker()
         return render_template('search.html', projects=projects, form=form)
-
-
-@main.route('/hosts', methods=['GET', 'POST'])
-def hosts():
-    form = HostForm()
-    if form.validate_on_submit():
-        hostname = request.form['hostname']
-        ipaddress = request.form['ipaddress']
-        az = request.form['az']
-        host = Hosts(hostname, ipaddress, az)
-        db.session.add(host)
-        db.session.commit()
-
-    hosts = Hosts.query.order_by(db.asc(Hosts.id)).all()
-    return render_template('main/hosts.html', hosts=hosts)
-
-
 
 
 @main.route('/dl', methods=['POST'])
