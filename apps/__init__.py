@@ -29,6 +29,9 @@ def create_app(config_name):
     from apps.main.views import main
     app.register_blueprint(main)
 
+    from apps.admin.views import admin
+    app.register_blueprint(admin, url_prefix='/admin')
+
     from apps.auth.views import auth
     app.register_blueprint(auth, url_prefix='/auth')
 
