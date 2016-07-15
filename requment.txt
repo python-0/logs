@@ -30,4 +30,3 @@ flask-migrate==1.8.0
 Flask-MySQLdb==0.2.0
 celery==3.1.23
 redis==2.10.5
-flask-admin==1.4.2

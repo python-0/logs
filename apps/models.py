@@ -91,8 +91,3 @@ class Tasks(db.Model):
     project = db.relationship('Projects', backref=db.backref('tasks', lazy='dynamic'))
 
 
-projects_hosts = db.Table(
-    'projects_hosts',
-    db.Column('host_id', db.Integer, db.ForeignKey('hosts.id')),
-    db.Column('project_id', db.Integer, db.ForeignKey('projects.project_id'))
-)
